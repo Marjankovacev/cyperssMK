@@ -1,3 +1,6 @@
+< reference types="Cypress" />
+const locators = require("../fixtures/locators.json");
+
 describe("registration tasts", () => {
    
     it("empty firstname NEG ", ()=>{

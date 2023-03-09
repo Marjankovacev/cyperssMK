@@ -1,8 +1,11 @@
+< reference types="Cypress" />
+const locators = require("../fixtures/locators.json");
+
 describe("login tests", () => {
     it("login with unregistred user",()=>{
         cy.visit("/");
         cy.get("a[href='/login']").click();
-        cy.get("#email").type("random@gmail.com");
+        cy.get(lokators.loginbutton).type("random@gmail.com");
         cy.get("#password").type("ddsdsdaf");
         cy.get("button").click();
         cy.url().should("contain","/login");
