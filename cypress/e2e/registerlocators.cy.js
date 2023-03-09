@@ -30,7 +30,6 @@ describe("Registar test with locator",()=>{
         cy.url().should("not.include","/register");
     })
     it("registar without first name",() => {
-        
         cy.get(locators.registerPage.lastNameInput).type(userData.randomLastName);
         cy.get(locators.commonFormElements.emailInput).type(userData.randomEmail);
         cy.get(locators.commonFormElements.passwordInput).type(userData.randomPassword);
@@ -43,7 +42,6 @@ describe("Registar test with locator",()=>{
        
         cy.get(locators.registerPage.firstNameInput).type(userData.randomFirstName);
         cy.get(locators.registerPage.lastNameInput).type(userData.randomLastName);
-        cy.get(locators.commonFormElements.emailInput).type(userData.randomEmail);
         cy.get(locators.commonFormElements.passwordInput).type(userData.randomPassword);
         cy.get(locators.registerPage.passwordConfirmationInput).type(userData.randomPassword);
         cy.get(locators.registerPage.tcCheckbox).check();
