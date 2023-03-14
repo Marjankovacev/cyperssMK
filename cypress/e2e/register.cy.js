@@ -1,49 +1,89 @@
-< reference types="Cypress" />
-const locators = require("../fixtures/locators.json");
+/// <refernce types="Cypress" />
 
-describe("registration tasts", () => {
-   
-    it("empty firstname NEG ", ()=>{
-        cy.visit("/register");
-        cy.get("#last-name").type("kovacevic");
-        cy.get("#email").type("Kovacevic@gmail.com");
-        cy.get("#password").type("Kovacevic1");
-        cy.get("#password-confirmation").type("Kovacevic1");
-        cy.get('input[type="checkbox"]').check();
-        cy.get('button[type="submit"]').click();
-        cy.url().should("contain","/register");
-    })
-    it("empty last name", () => {
-        cy.visit("/register");
-        cy.get("#first-name").type("Miroslav");
-        cy.get("#email").type("miroslavnenadovic@gmail.com");
-        cy.get("#password").type("Nekasifra123");
-        cy.get("#password-confirmation").type("Nekasifra123");
-        cy.get('input[type="checkbox"]').check();
-        cy.get('button[type="submit"]').click();
-        cy.url().should("contain","/register");
-    })
-    it("empty email", () => {
-        cy.visit("/register");
-        cy.get("#first-name").type("Miroslav");
-        cy.get("#last-name").type("Nenadovic");
-        cy.get("#password").type("Nekasifra123");
-        cy.get("#password-confirmation").type("Nekasifra123");
-        cy.get('input[type="checkbox"]').check();
-        cy.get('button[type="submit"]').click();
-        cy.url().should("contain","/register");
-    })
+describe("register tests", () => {
+  it("register without first name provided", () => {
+    cy.visit("/register");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-f@mail.com");
+    cy.get("#password").type("Test12345");
+    cy.get("#password-confirmation").type("Test12345");
+    cy.get(":checkbox").check();
+    cy.get("button").click();
+    cy.url().should("include", "/register");
+  });
 
-    it("Registar with valid data", () => {
-        cy.visit("/register");
-        cy.get("#first-name").type("Miroslav");
-        cy.get("#last-name").type("Nenadovic");
-        cy.get("#email").type("miroslavnenadovic@gmail.com");
-        cy.get("#password").type("Nekasifra123");
-        cy.get("#password-confirmation").type("Nekasifra123");
-        cy.get('input[type="checkbox"]').check();
-        cy.get('button[type="submit"]').click();
-        cy.url().should("contain","/logout");
-    })
-    
-})
+  it("register with email address missing '@'", () => {
+    cy.visit("/register");
+    cy.get("#first-name").type("Filip");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-fmail.com");
+    cy.get("#password").type("Test12345");
+    cy.get("#password-confirmation").type("Test12345");
+    cy.get(":checkbox").check();
+    cy.get("button").click();
+    cy.url().should("include", "/register");
+  });
+
+  it("register with password less than 8 characters", () => {
+    cy.visit("/register");
+    cy.get("#first-name").type("Filip");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-f@mail.com");
+    cy.get("#password").type("Test123");
+    cy.get("#password-confirmation").type("Test123");
+    cy.get(":checkbox").check();
+    cy.get("button").click();
+    cy.url().should("include", "/register");
+  });
+
+  it("register with invalid password confirmation", () => {
+    cy.visit("/register");
+    cy.get("#first-name").type("Filip");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-f@mail.com");
+    cy.get("#password").type("Test12345");
+    cy.get("#password-confirmation").type("Test123456");
+    cy.get(":checkbox").check();
+    cy.get("button").click();
+    cy.url().should("include", "/register");
+  });
+
+  it("register without accepting terms and conditions", () => {
+    cy.visit("/register");
+    cy.get("#first-name").type("Filip");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-f@mail.com");
+    cy.get("#password").type("Test12345");
+    cy.get("#password-confirmation").type("Test12345");
+    cy.get("button").click();
+    cy.url().should("include", "/register");
+  });
+
+  it("register with incomplete email address", () => {
+    cy.visit("/register");
+    cy.get("#first-name").type("Filip");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-f@nesto.com");
+    cy.get("#password").type("Test12345");
+    cy.get("#password-confirmation").type("Test12345");
+    cy.get(":checkbox").check();
+    cy.get("button").click();
+    cy.url().should("include", "/register");
+  });
+
+  it("register with valid data", () => {
+    cy.visit("/register");
+    cy.get("#first-name").type("Filip");
+    cy.get("#last-name").type("Nedovic");
+    cy.get("#email").type("test-f@mail.com");
+    cy.get("#password").type("Test12345");
+    cy.get("#password-confirmation").type("Test12345");
+    cy.get(":checkbox").check();
+    // cy.get("input[type='checkbox']");
+    // cy.get("input").eq(5);
+    // cy.get("input").last();
+    // cy.get(".form-check-input");
+    cy.get("button").click();
+    cy.url().should("not.include", "/register");
+  });
+});
