@@ -5,7 +5,7 @@ import { loginPage } from "../page_objects/loginPage";
 describe("all gallery page test", () => {
     beaforEach.it("visit gallery app and log in", () => {
         cy.visit("/login");
-        loginPage.login("nedovic.filip@gmail.com","Test12345");
+        loginPage.login();
         cy.url().should("not.include","/login");
 
     })

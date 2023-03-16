@@ -64,5 +64,15 @@ describe("register tests with POM", () => {
     );
     cy.url().should("not.include", "/register");
   });
+  it("reg wia backend",()=>{
+    cy.registarViaBackend(
+      userData.randomFirstName,
+      userData.randomLastName,
+      userData.randomEmail,
+      userData.randomPassword,
+    );
+    cy.loginViaBackend(userData.randomEmail, userData.randompassword);
+    cy.visit("/")
+  })
 });
 
