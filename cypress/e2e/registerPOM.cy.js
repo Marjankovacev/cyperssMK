@@ -55,13 +55,23 @@ describe("register tests with POM", () => {
       .and("have.text", "The terms and conditions must be accepted.");
   });
 
-  it("register with valid data", () => {
+  it.only("register with valid data", () => {
+    cy.intercept({
+      method: "POST",
+      url: "https://gallery-api.vivifyideas.com/api/auth/register",
+    }).as("validRegister");
+    
     registerPage.registerWithValidData(
       userData.randomFirstName,
       userData.randomLastName,
       userData.randomEmail,
-      userData.randomPassword
-    );
+      userData.randomPassword,
+      );
+      
+    cy.wait("@validRegister").then((interception)=>{
+      console.log(interception);
+      expect(interception.response.statusCode).to.be.equal(200);
+
     cy.url().should("not.include", "/register");
   });
   it("reg wia backend",()=>{

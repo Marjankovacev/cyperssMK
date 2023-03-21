@@ -37,7 +37,7 @@ Cypress.Commands.add("loginViaBackend",()=>{
         window.localStorage.setItem("token",response.access_token);
     });
 })
-Cupress.Commands.add("registarViaBackend",(firstName, lastname, email, password)=> {
+Cypress.Commands.add("registarViaBackend",(firstName, lastname, email, password)=> {
     cy.request({
         metod: "POST",
         url:"https://gallery-api.vivifyideas.com/api/auth/register",
